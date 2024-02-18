@@ -46,6 +46,12 @@ const CategoryListPage = () => {
                                 <br />
                             </>
                         )}
+                        <Button type="primary" size="small">
+                            <Link to={`/category/edit/${category.id}`}>Редагувати</Link>
+                        </Button>{" "}
+                        <Button type="default" size="small">
+                            Видалити
+                        </Button>
                         <hr />
                     </li>
                 ))}
