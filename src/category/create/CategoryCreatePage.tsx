@@ -1,11 +1,11 @@
 import {useNavigate} from "react-router-dom";
-import {ICategoryCreate, IUploadedFile} from "./type";
+import {ICategoryCreate, IUploadedFile} from "../type.ts";
 import {Button, Form, Input, Row, Upload} from "antd";
 import {Link} from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import {UploadChangeParam} from "antd/es/upload";
 import { PlusOutlined } from '@ant-design/icons';
-import http_common from "../../http_common";
+import http_common from "../../http_common.ts";
 
 const CategoryCreatePage = () => {
     const navigate = useNavigate();

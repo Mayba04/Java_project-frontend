@@ -6,7 +6,7 @@ import CategoryListPage from './category/list/CategoryListPage'
 import { Route, Routes } from 'react-router-dom'
 import DefaultLayout from './containers/DefaultLayout'
 import CategoryCreatePage from './category/create/CategoryCreatePage'
-import EditCategoryPage from './category/edit/EditCategoryPage'
+import CategoryEditPage from './category/edit/CategoryEditPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,7 +18,7 @@ function App() {
         <Route index element={<CategoryListPage/>}/>
         <Route path={"category"}>
                     <Route path = "create" element={<CategoryCreatePage/>}/>
-                    <Route path="edit/:id" element={<EditCategoryPage />} /> {/* Додайте маршрут для редагування */}
+                    <Route path={"edit/:id"} element={<CategoryEditPage/>} />
         </Route>
       </Route>
     </Routes>

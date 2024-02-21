@@ -1,98 +1,165 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal } from "antd";
-import { Link } from "react-router-dom";
-import http_common from "../../http_common";
+import {Button, Popconfirm, Table} from "antd";
+import {Link} from "react-router-dom";
+import {APP_ENV} from "../../env";
+import {ColumnsType} from "antd/es/table";
+import {ICategoryItem, IGetCategories} from "../type.ts";
+import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import http_common from "../../http_common.ts";
+import {useEffect, useState} from "react";
+import type {GetProp, TableProps} from 'antd';
+import qs from 'qs';
 
-interface CategoryType {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
+type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
+
+interface TableParams {
+    pagination?: TablePaginationConfig;
+    sortField?: string;
+    sortOrder?: string;
+    filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
 }
 
-const CategoryListPage: React.FC = () => {
-  const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [categoryIdToDelete, setCategoryIdToDelete] = useState<number | null>(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+const getRandomuserParams = (params: TableParams) => ({
+    size: params.pagination?.pageSize,
+    page: params.pagination?.current == undefined ? 1 : params.pagination.current - 1,
+    ...params,
+});
 
-  useEffect(() => {
-    fetchDataFromApi();
-  }, []);
+const CategoryListPage = () => {
+    const imgURL = APP_ENV.BASE_URL + "/uploading/150_";
 
-  const fetchDataFromApi = async () => {
-    try {
-      const response = await http_common.get("/api/categories");
-      setCategories(response.data);
-    } catch (error) {
-      console.error("Помилка при отриманні даних з API:", error);
-    }
-  };
+    const columns: ColumnsType<ICategoryItem> = [
+        {
+            title: 'Id',
+            dataIndex: 'id',
+        },
+        {
+            title: 'Name',
+            dataIndex: 'name',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+        },
+        {
+            title: 'Image',
+            dataIndex: 'image',
+            render: (imageName: string) => (
+                <img src={`${imgURL}${imageName}`} alt="Category Image"/>
+            ),
+        },
+        {
+            title: 'Edit',
+            dataIndex: 'edit',
+            render: (_, record) => (
+                <Link to={`/category/edit/${record.id}`}>
+                    <Button type="primary" icon={<EditOutlined/>}>
+                        Змінить
+                    </Button>
+                </Link>
 
-  const showDeleteConfirm = (categoryId: number) => {
-    setCategoryIdToDelete(categoryId);
-    setIsModalVisible(true);
-  };
+            ),
+        },
+        {
+            title: 'Delete',
+            dataIndex: 'delete',
+            render: (_, record) => (
 
-  const handleOk = async () => {
-    try {
-      if (categoryIdToDelete !== null) {
-        await http_common.delete(`/api/categories/${categoryIdToDelete}`);
-        fetchDataFromApi();
-      }
-    } catch (ex) {
-      console.error("Exception during category deletion", ex);
-    } finally {
-      setIsModalVisible(false);
-      setCategoryIdToDelete(null);
-    }
-  };
+                <Popconfirm
+                    title="Are you sure to delete this category?"
+                    onConfirm={() => handleDelete(record.id)}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <Button icon={<DeleteOutlined/>}>
+                        Delete
+                    </Button>
+                </Popconfirm>
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-    setCategoryIdToDelete(null);
-  };
+            ),
+        },
+    ];
 
-  return (
-    <>
-      <h1>Список категорій</h1>
-      <Link to={"/category/create"}>
-        <Button size={"large"}>Додати</Button>
-      </Link>
+    const [data, setData] = useState<ICategoryItem[]>([]);
 
-      <ul>
-        {categories.map((category) => (
-          <li key={category.id}>
-            <strong>ID:</strong> {category.id}<br />
-            <strong>Name:</strong> {category.name}<br />
-            <strong>Description:</strong> {category.description}<br />
-            {category.image && (
-              <>
-                <strong>Image:</strong>{" "}
-                <img src={`http://localhost:8080/uploading/150_${category.image}`} alt={category.name} style={{ maxWidth: "100px" }} />
-                <br />
-              </>
-            )}
-            <Button type="primary" size="small">
-              <Link to={`/category/edit/${category.id}`}>Редагувати</Link>
-            </Button>{" "}
-            <Button type="default" size="small" onClick={() => showDeleteConfirm(category.id)}>
-              Видалити
-            </Button>
-            <hr />
-          </li>
-        ))}
-      </ul>
+    const [loading, setLoading] = useState(false);
 
-      <Modal
-        title="Підтвердіть видалення"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <p>Ви впевнені, що хочете видалити цю категорію?</p>
-      </Modal>
-    </>
-  );
-};
+    const [tableParams, setTableParams] = useState<TableParams>({
+        pagination: {
+            current: 1,
+            pageSize: 1,
+        },
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response =
+                    await http_common.get<IGetCategories>(`/api/categories?${qs.stringify(getRandomuserParams(tableParams))}`);
+
+                console.log("response.data", response.data)
+                setData(response.data.content);
+                setLoading(false);
+
+                setTableParams({
+                    ...tableParams,
+                    pagination: {
+                        ...tableParams.pagination,
+                        total: response.data.totalElements,
+                    },
+                });
+
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        setLoading(true);
+        fetchData();
+    }, [JSON.stringify(tableParams)]);
+
+    const handleDelete = async (categoryId: number) => {
+        try {
+            await http_common.delete(`/api/categories/${categoryId}`);
+            setData(data.filter(x => x.id != categoryId));
+        } catch (error) {
+            throw new Error(`Error: ${error}`);
+        }
+    };
+
+
+    const handleTableChange: TableProps['onChange'] = (pagination, filters, sorter) => {
+        setTableParams({
+            pagination,
+            filters,
+            ...sorter,
+        });
+
+        // `dataSource` is useless since `pageSize` changed
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+            setData([]);
+        }
+    };
+
+    return (
+        <>
+            <h1>Список категорій</h1>
+            <Link to={"/category/create"}>
+                <Button type="primary" style={{margin: '5px'}}>
+                    ADD +
+                </Button>
+            </Link>
+
+            <Table
+                columns={columns}
+                rowKey={"id"}
+                dataSource={data}
+                pagination={tableParams.pagination}
+                loading={loading}
+                onChange={handleTableChange}
+            />
+
+            {/*columns={columns} rowKey={"id"} dataSource={data} size="middle"/>*/}
+        </>
+    );
+}
 
 export default CategoryListPage;
