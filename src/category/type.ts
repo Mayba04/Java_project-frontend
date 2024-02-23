@@ -15,6 +15,19 @@ export interface ICategoryItem {
     image: string;
 }
 
+export interface ICategorySearch{
+    name: string,
+    page: number,
+    size: number
+}
+
+export interface IGetCategories {
+    content: ICategoryItem[],
+    totalPages: number,
+    totalElements: number,
+    number: number
+}
+
 export interface IGetCategories {
     content: ICategoryItem[],
     totalPages: number,
