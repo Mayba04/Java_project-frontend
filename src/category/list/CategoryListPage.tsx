@@ -1,5 +1,5 @@
-import {Button, Popconfirm, Table} from "antd";
-import {Link} from "react-router-dom";
+import {Button, Input, Popconfirm, Space, Table} from "antd";
+import {Link, useNavigate} from "react-router-dom";
 import {APP_ENV} from "../../env";
 import {ColumnsType} from "antd/es/table";
 import {ICategoryItem, IGetCategories} from "../type.ts";
@@ -8,6 +8,9 @@ import http_common from "../../http_common.ts";
 import {useEffect, useState} from "react";
 import type {GetProp, TableProps} from 'antd';
 import qs from 'qs';
+import type { SearchProps } from "antd/es/input/Search";
+const { Search } = Input;
+
 
 type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
 
@@ -24,8 +27,15 @@ const getRandomuserParams = (params: TableParams) => ({
     ...params,
 });
 
+
+
 const CategoryListPage = () => {
     const imgURL = APP_ENV.BASE_URL + "/uploading/150_";
+    const navigate = useNavigate();
+
+    const onSearch: SearchProps['onSearch'] = (searchTerm) => {
+        navigate(`/categories/search/${searchTerm}`);
+    };
 
     const columns: ColumnsType<ICategoryItem> = [
         {
@@ -86,7 +96,7 @@ const CategoryListPage = () => {
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
-            pageSize: 1,
+            pageSize: 5,
         },
     });
 
@@ -140,7 +150,19 @@ const CategoryListPage = () => {
     };
 
     return (
+        
         <>
+
+            <Space direction="horizontal">
+                <Search
+                    placeholder="input category name"
+                    onSearch={onSearch}
+                    style={{ width: 200, margin: 15 }}
+                    enterButton
+                />
+
+            </Space>
+
             <h1>Список категорій</h1>
             <Link to={"/category/create"}>
                 <Button type="primary" style={{margin: '5px'}}>
