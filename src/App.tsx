@@ -7,6 +7,8 @@ import { Route, Routes } from 'react-router-dom'
 import DefaultLayout from './containers/DefaultLayout'
 import CategoryCreatePage from './category/create/CategoryCreatePage'
 import CategoryEditPage from './category/edit/CategoryEditPage'
+import ProductCreatePage from './product/create/ProductCreatePage'
+import ProductListPage from './product/list/ProductListPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +21,10 @@ function App() {
         <Route path={"category"}>
                     <Route path = "create" element={<CategoryCreatePage/>}/>
                     <Route path={"edit/:id"} element={<CategoryEditPage/>} />
+        </Route>
+        <Route path={"product"}>
+            <Route path = "create" element={<ProductCreatePage/>}/>
+            <Route path="list" element={<ProductListPage />} />
         </Route>
       </Route>
     </Routes>

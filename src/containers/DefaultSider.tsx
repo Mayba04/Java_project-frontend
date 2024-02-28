@@ -1,44 +1,30 @@
-import {Layout, Menu, MenuProps, theme} from "antd";
-import React from "react";
-import {LaptopOutlined, NotificationOutlined, UserOutlined} from "@ant-design/icons";
-const {  Sider } = Layout;
+import React from 'react';
+import { Layout, Menu } from 'antd';
+import { UserOutlined, LaptopOutlined, NotificationOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Link, Route, Routes } from 'react-router-dom'; // Зміни в імпортах
+import ProductListPage from '../product/list/ProductListPage';
+
+const { Sider } = Layout;
 
 const DefaultSider = () => {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
-
-    const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-        (icon, index) => {
-            const key = String(index + 1);
-
-            return {
-                key: `sub${key}`,
-                icon: React.createElement(icon),
-                label: `subnav ${key}`,
-
-                children: new Array(4).fill(null).map((_, j) => {
-                    const subKey = index * 4 + j + 1;
-                    return {
-                        key: subKey,
-                        label: `option${subKey}`,
-                    };
-                }),
-            };
-        },
-    );
+    const items: { key: string; icon: JSX.Element; label: string; to?: string }[] = [
+        { key: 'sub1', icon: <UserOutlined />, label: 'subnav 1', to: '/page1' },
+        { key: 'sub2', icon: <LaptopOutlined />, label: 'subnav 2', to: '/page2' },
+        { key: 'sub3', icon: <NotificationOutlined />, label: 'subnav 3', to: '/page3' },
+        { key: 'sub4', icon: <ShoppingCartOutlined />, label: 'Product', to: '/product/list' },
+    ];
 
     return (
-        <Sider style={{ background: colorBgContainer }} width={200}>
-            <Menu
-                mode="inline"
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
-                style={{ height: '100%' }}
-                items={items2}
-            />
+        <Sider width={200} style={{ background: '#fff' }}>
+            <Menu mode="inline" defaultSelectedKeys={['sub1']} defaultOpenKeys={['sub1']} style={{ height: '100%' }}>
+                {items.map(item => (
+                    <Menu.Item key={item.key} icon={item.icon}>
+                    <Link to={item.to !== undefined ? item.to : ''}>{item.label}</Link>
+                </Menu.Item>
+                ))}
+            </Menu>
         </Sider>
-    )
-}
+    );
+};
 
 export default DefaultSider;
