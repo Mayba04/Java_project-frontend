@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import CategoryListPage from './category/list/CategoryListPage'
 import { Route, Routes } from 'react-router-dom'
@@ -11,7 +8,6 @@ import ProductCreatePage from './product/create/ProductCreatePage'
 import ProductListPage from './product/list/ProductListPage'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>

@@ -12,11 +12,13 @@ export interface IUploadedFile {
 }
 
 export interface IProductItem {
-    id: number;
-    name: string;
-    description: string;
-    price: string;
-    category_id: number;
+    id?: number | undefined;
+    name: string,
+    price: string,
+    description: string,
+    files: string[],
+    category: string,
+    categoryId: number,
 }
 
 export interface IProductImageItem {

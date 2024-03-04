@@ -1,42 +1,52 @@
-// ProductListPage.tsx
-import React, { useEffect, useState } from 'react';
 import {Link} from "react-router-dom";
-import { List, Card } from 'antd';
-import http_common from '../../http_common';
-import { IProductItem } from '../type'; // Замініть '../type' на відповідний шлях до вашого type.ts
-import {Button} from "antd";
+import {Button, Col, Row} from "antd";
+import {useEffect, useState} from "react";
+import ProductCard from "./ProductCard.tsx";
+import {IProductItem} from "../type.ts";
+import http_common from "../../http_common.ts";
+
 const ProductListPage = () => {
-    const [products, setProducts] = useState<IProductItem[]>([]);
+
+
+    const [list, setList] = useState<IProductItem[]>([]);
+
 
     useEffect(() => {
-        // Отримайте дані про продукти з API
-        http_common.get('/api/products')
-            .then(response => setProducts(response.data))
-            .catch(error => console.error('Error fetching products:', error));
+        http_common.get<IProductItem[]>("/api/products")
+            .then(resp => {
+                console.log("Get products", resp.data);
+                setList((resp.data));
+            });
     }, []);
 
+
     return (
-        <div>
-            <h1>Product List</h1>
+        <>
+            <h1>Список продуктів</h1>
             <Link to={"/product/create"}>
-                <Button type="primary" style={{margin: '5px'}}>
-                    ADD +
+                <Button type="primary">
+                    Додати
                 </Button>
             </Link>
-            <List
-                grid={{ gutter: 16, column: 4 }}
-                dataSource={products}
-                renderItem={product => (
-                    <List.Item>
-                        <Card title={product.name}>
-                            <p>{product.description}</p>
-                            <p>Price: {product.price}</p>
-                        </Card>
-                    </List.Item>
-                )}
-            />
-        </div>
+
+
+
+            <Row gutter={16}>
+                <Col span={24}>
+                    <Row>
+                        {list.length === 0 ? (
+                            <h2>Список пустий</h2>
+                        ) : (
+                            list.map((item) =>
+                                <ProductCard key={item.id} {...item} />,
+                            )
+                        )}
+                    </Row>
+                </Col>
+            </Row>
+
+        </>
     );
-};
+}
 
 export default ProductListPage;
