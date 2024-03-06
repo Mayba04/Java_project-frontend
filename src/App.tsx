@@ -6,7 +6,7 @@ import CategoryCreatePage from './category/create/CategoryCreatePage'
 import CategoryEditPage from './category/edit/CategoryEditPage'
 import ProductCreatePage from './product/create/ProductCreatePage'
 import ProductListPage from './product/list/ProductListPage'
-
+import ProductEditPage from "./product/edit/ProductEditPage.tsx";
 function App() {
 
   return (
@@ -21,6 +21,7 @@ function App() {
         <Route path={"product"}>
             <Route path = "create" element={<ProductCreatePage/>}/>
             <Route path="list" element={<ProductListPage />} />
+            <Route path={"edit/:id"} element={<ProductEditPage/>} />
         </Route>
       </Route>
     </Routes>
