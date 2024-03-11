@@ -7,6 +7,7 @@ import CategoryEditPage from './category/edit/CategoryEditPage'
 import ProductCreatePage from './product/create/ProductCreatePage'
 import ProductListPage from './product/list/ProductListPage'
 import ProductEditPage from "./product/edit/ProductEditPage.tsx";
+import Login from './views/Login/index.tsx'
 function App() {
 
   return (
@@ -23,6 +24,8 @@ function App() {
             <Route path="list" element={<ProductListPage />} />
             <Route path={"edit/:id"} element={<ProductEditPage/>} />
         </Route>
+
+        <Route path={"login"} element={<Login/>}/>
       </Route>
     </Routes>
     </>
