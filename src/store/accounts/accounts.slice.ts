@@ -5,6 +5,7 @@ import {IAccountState, IUser} from "../../interfaces/account";
 import {addLocalStorage, deleteLocalStorage} from "../../utils/storage/lacalStorageUtlis.ts";
 import {Status} from "../../utils/enums";
 import {login} from "./accounts.actions.ts";
+import http_common from "../../http_common.ts";
 
 function isRejectedAction(action: AnyAction): action is RejectedAction {
     return action.type.endsWith('/rejected');
@@ -20,6 +21,7 @@ const updateUserState = (state: IAccountState, token: string): void => {
     state.isLogin = true;
 
     addLocalStorage('authToken', token);
+    http_common.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
 //state - нашого редюсера

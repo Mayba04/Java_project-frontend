@@ -1,4 +1,4 @@
-import {ICategoryItem} from "../type";
+import {ICategoryItem} from "../../admin/category/type";
 import {Button, Card, Col, Popconfirm, Typography} from "antd";
 import NotImage from '../../assets/imagenot.png';
 import Meta from "antd/es/card/Meta";

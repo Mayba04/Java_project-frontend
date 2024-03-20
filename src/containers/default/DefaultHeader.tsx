@@ -1,10 +1,10 @@
 import {Avatar, Button, Layout, Menu} from 'antd';
 import {Link, useLocation} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {logout} from "../store/accounts/accounts.slice.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {logout} from "../../store/accounts/accounts.slice.ts";
 import ButtonGroup from "antd/es/button/button-group";
 import {UserOutlined, PoweroffOutlined} from '@ant-design/icons';
-import {APP_ENV} from "../env";
+import {APP_ENV} from "../../env";
 
 const {Header} = Layout;
 

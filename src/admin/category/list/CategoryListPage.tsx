@@ -2,8 +2,8 @@ import {Button, Col, Form, Input, Pagination, Row} from "antd";
 import {Link, useSearchParams} from "react-router-dom";
 import {ICategorySearch, IGetCategories} from "../type.ts";
 import {useEffect, useState} from "react";
-import http_common from "../../http_common.ts";
-import CategoryCard from "./CategoryCard.tsx";
+import http_common from "../../../http_common.ts";
+import CategoryCard from "../../../views/Home/CategoryCard.tsx";
 
 const CategoryListPage = () => {
 

@@ -3,7 +3,7 @@ import {Button, Col, Collapse, Form, Input, Pagination, Row, Select} from "antd"
 import {useEffect, useState} from "react";
 import ProductCard from "./ProductCard.tsx";
 import {IGetProducts, IProductSearch, ISelectItem} from "../type.ts";
-import http_common from "../../http_common.ts";
+import http_common from "../../../http_common.ts";
 
 const ProductListPage = () => {
     const [data, setData] = useState<IGetProducts>({

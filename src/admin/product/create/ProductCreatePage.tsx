@@ -4,10 +4,9 @@ import type {UploadChangeParam} from 'antd/es/upload';
 import {useNavigate} from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import {ICategoryName, IProductCreate} from "../type.ts"
-import http_common from "../../http_common";
+import http_common from "../../../http_common";
 import {IUploadedFile} from "../type.ts";
 import {useEffect, useState} from "react";
-
 const ProductCreatePage = () => {
     const [categories, setCategories] = useState<ICategoryName[]>([]);
     const navigate = useNavigate();
@@ -28,6 +27,7 @@ const ProductCreatePage = () => {
             await http_common.post("/api/products", values, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    
                 },
             });
             navigate('/');

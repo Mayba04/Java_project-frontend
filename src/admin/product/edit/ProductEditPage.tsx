@@ -10,12 +10,12 @@ import {
     horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import {DndContext, PointerSensor, useSensor} from '@dnd-kit/core';
-import DraggableUploadListItem from '../../common/DraggableUploadListItemProps.tsx';
+import DraggableUploadListItem from '../../../common/DraggableUploadListItemProps.tsx';
 import {ISelectItem} from "../type.ts";
 import {IProductItem} from "../type.ts";
-import http_common from "../../http_common.ts";
+import http_common from "../../../http_common.ts";
 import {IProductEdit, IProductEditPhoto} from "./type.ts";
-import {APP_ENV} from "../../env";
+import {APP_ENV} from "../../../env";
 
 const ProductEditPage : React.FC = () => {
     const navigate = useNavigate();

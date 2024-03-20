@@ -1,9 +1,9 @@
 import React from 'react';
 import {Badge, Button, Card, Col} from 'antd';
 import {Typography } from 'antd';
-import NotImage from '../../assets/imagenot.png';
+import NotImage from '../../../assets/imagenot.png';
 import {IProductItem} from "../type.ts";
-import {APP_ENV} from "../../env";
+import {APP_ENV} from "../../../env";
 import { Link } from 'react-router-dom';
 import {EditOutlined} from '@ant-design/icons';
 const { Title } = Typography;

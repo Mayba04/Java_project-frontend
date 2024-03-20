@@ -5,8 +5,8 @@ import TextArea from "antd/es/input/TextArea";
 import {UploadChangeParam} from "antd/es/upload";
 import {PlusOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
-import http_common from "../../http_common.ts";
-import {APP_ENV} from "../../env";
+import http_common from "../../../http_common.ts";
+import {APP_ENV} from "../../../env/index.ts";
 
 const CategoryEditPage = () => {
     const navigate = useNavigate();
