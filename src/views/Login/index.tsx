@@ -8,7 +8,14 @@ import {Link, useNavigate} from 'react-router-dom';
 import {unwrapResult} from '@reduxjs/toolkit';
 import {useNotification} from '../../hooks/notification/index.ts';
 import {Status} from '../../utils/enums/index.ts';
+import { jwtDecode } from 'jwt-decode';
 
+interface CustomJwtPayload {
+    email: string;
+    name: string;
+    roles: string[];
+    // інші кастомні поля...
+}
 const Login : React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -16,11 +23,21 @@ const Login : React.FC = () => {
     const {handleError} = useNotification(messageApi);
     const status = useAppSelector(state => state.account.status);
 
+    
     const onFinish = async (values: ILogin) => {
         try {
             const response = await dispatch(login(values));
-            unwrapResult(response);
-            navigate('/');
+            const result = unwrapResult(response);
+    
+            // Використовуйте type assertion тут, щоб TypeScript розумів ваш кастомний тип
+            const decodedToken = jwtDecode<CustomJwtPayload>(result.token);
+    
+            // Тепер ви можете безпечно звертатися до decodedToken.roles
+            if (decodedToken.roles.includes("admin")) {
+                navigate('/admin');
+            } else {
+                navigate('/');
+            }
         } catch (error) {
             handleError(error);
         }

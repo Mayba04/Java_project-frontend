@@ -85,7 +85,7 @@ const ProductListPage = () => {
     return (
         <>
             <h1>Список продуктів</h1>
-            <Link to={"/product/create"}>
+            <Link to={"/admin/product/create"}>
                 <Button type="primary">
                     Додати
                 </Button>

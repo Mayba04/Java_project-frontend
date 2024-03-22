@@ -33,7 +33,7 @@ const CategoryCard: React.FC<ICategoryCardProps> = (props) => {
                         />
                     }
                     actions={[
-                        <Link to={`/category/edit/${id}`}>
+                        <Link to={`/admin/category/edit/${id}`}>
                             <Button type="primary" icon={<EditOutlined/>}>
                                 Змінить
                             </Button>

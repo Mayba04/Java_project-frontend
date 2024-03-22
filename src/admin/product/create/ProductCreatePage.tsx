@@ -14,12 +14,16 @@ const ProductCreatePage = () => {
     const [form] = Form.useForm<IProductCreate>();
 
     useEffect(() => {
-        http_common.get<ICategoryName[]>("/api/categories/")
-            .then(resp=> {
-                //console.log("list categories", resp.data);
-                setCategories(resp.data);
+        http_common.get("/api/categories")
+            .then(resp => {
+                // Переконайтесь, що ви зберігаєте масив категорій
+                setCategories(resp.data.content);
+            })
+            .catch(error => {
+                console.error("Failed to load categories", error);
+                setCategories([]); // Встановлюйте порожній масив у випадку помилки
             });
-    },[]);
+    }, []);
 
     const onSubmit = async (values: IProductCreate) => {
         console.log("data", values);
@@ -30,7 +34,7 @@ const ProductCreatePage = () => {
                     
                 },
             });
-            navigate('/');
+            navigate('/admin/product');
         }
         catch(ex) {
             console.log("Exception create category", ex);

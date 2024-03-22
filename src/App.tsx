@@ -21,6 +21,8 @@ function App() {
                 <Route index element={<HomePage/>}/>
                 <Route path={"login"} element={<Login/>}/>
                 <Route path={"register"} element={<Register/>}/>
+                <Route path={"product"} element={<ProductListPage/>} />
+                    
             </Route>
             <Route path={"/admin"} element={<AdminLayout/>}>
                 <Route index element={<CategoryListPage/>}/>

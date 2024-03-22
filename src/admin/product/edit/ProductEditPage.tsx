@@ -126,7 +126,7 @@ const ProductEditPage : React.FC = () => {
         try {
             console.log("Send Data", sendData);
             await http_common.put("/api/products", sendData);
-            navigate('/product');
+            navigate('/admin/product');
         }
         catch(ex) {
             console.log("Exception create category", ex);
@@ -231,7 +231,7 @@ const ProductEditPage : React.FC = () => {
                         <Button style={{margin: 10}} type="primary" htmlType="submit">
                             Зберети
                         </Button>
-                        <Button style={{margin: 10}} htmlType="button" onClick={() =>{ navigate('/product')}}>
+                        <Button style={{margin: 10}} htmlType="button" onClick={() =>{ navigate('/admin/product')}}>
                             Cancel
                         </Button>
                     </Row>

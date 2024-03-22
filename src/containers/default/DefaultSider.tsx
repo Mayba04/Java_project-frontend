@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import {
     DesktopOutlined,
-    FileOutlined,
     PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
+
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
@@ -29,15 +27,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem(<Link to={"/admin"} >Категорії</Link>, '1', <PieChartOutlined />),
-    getItem(<Link to={"/admin/product"}>Товари</Link>, '2', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
-    ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem(<Link to={"/"} >Категорії</Link>, '1', <PieChartOutlined />),
+    getItem(<Link to={"/product"}>Товари</Link>, '2', <DesktopOutlined />),
 ];
 
 const DefaultSider = () => {
